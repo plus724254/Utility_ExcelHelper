@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
@@ -11,7 +13,6 @@ namespace ExcelUtilitys
         private ISheet _sheet;
         private IRow _row;
         private ICell _cell;
-
         public ExcelHelper()
         {
             this._workbook = new XSSFWorkbook();
@@ -62,14 +63,13 @@ namespace ExcelUtilitys
 
         public void SetValue<T>(T value, bool nextCell = false)
         {
-            switch (Type.GetTypeCode(typeof(T)))
+            var valueType = typeof(T);
+            // 配合C#6.0以下版本
+            switch (Type.GetTypeCode(valueType))
             {
                 case TypeCode.DateTime:
-                    _cell.SetCellValue((DateTime)(object)value);
+                    _cell.SetCellValue(Convert.ToDateTime(value));
                     break;
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
@@ -78,7 +78,24 @@ namespace ExcelUtilitys
                 case TypeCode.Single:
                     _cell.SetCellValue(Convert.ToDouble(value));
                     break;
+                case TypeCode.String:
+                    _cell.SetCellValue(value.ToString());
+                    break;
                 default:
+                    if (value != null)
+                    {
+                        if (valueType == typeof(DateTime?))
+                        {
+                            _cell.SetCellValue(Convert.ToDateTime(value));
+                        }
+                        else if (valueType == typeof(int?) || valueType == typeof(double?) 
+                            || valueType == typeof(decimal?) || valueType == typeof(long?) 
+                            || valueType == typeof(short?)  || valueType == typeof(float?))
+                        {
+                            _cell.SetCellValue(Convert.ToDouble(value));
+                        }
+                        break;
+                    }
                     _cell.SetCellValue(value.ToString());
                     break;
             }
