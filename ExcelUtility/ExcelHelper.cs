@@ -34,7 +34,7 @@ namespace ExcelUtilitys
         }
         public int GetCellIndex()
         {
-            return _row.RowNum;
+            return _cell.ColumnIndex;
         }
 
         public void SetRowCellIndex(int rowIndex, int cellIndex)
