@@ -37,15 +37,15 @@ namespace ExcelUtilitys
             return _row.RowNum;
         }
 
-        public void SetRowCell(int rowIndex, int cellIndex)
+        public void SetRowCellIndex(int rowIndex, int cellIndex)
         {
             CheckOrCreateRowCell(rowIndex, cellIndex);
         }
-        public void SetRow(int rowIndex)
+        public void SetRowIndex(int rowIndex)
         {
             CheckOrCreateRowCell(rowIndex, _cell.ColumnIndex);
         }
-        public void SetCell(int cellIndex)
+        public void SetCellIndex(int cellIndex)
         {
             CheckOrCreateRowCell(_row.RowNum, cellIndex);
         }
@@ -55,7 +55,7 @@ namespace ExcelUtilitys
             _sheet = _workbook.GetSheet(name);
             _row = _sheet.GetRow(0);
         }
-        public void SetSheetAt(int index)
+        public void SetSheetIndex(int index)
         {
             _sheet = _workbook.GetSheetAt(index);
             _row = _sheet.GetRow(0);
@@ -88,9 +88,9 @@ namespace ExcelUtilitys
                         {
                             _cell.SetCellValue(Convert.ToDateTime(value));
                         }
-                        else if (valueType == typeof(int?) || valueType == typeof(double?) 
-                            || valueType == typeof(decimal?) || valueType == typeof(long?) 
-                            || valueType == typeof(short?)  || valueType == typeof(float?))
+                        else if (valueType == typeof(int?) || valueType == typeof(double?)
+                            || valueType == typeof(decimal?) || valueType == typeof(long?)
+                            || valueType == typeof(short?) || valueType == typeof(float?))
                         {
                             _cell.SetCellValue(Convert.ToDouble(value));
                         }

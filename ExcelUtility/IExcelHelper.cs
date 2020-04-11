@@ -8,11 +8,11 @@ namespace ExcelUtilitys
         int GetCellIndex();
         int GetRowIndex();
         void OnExport(Stream stream);
-        void SetCell(int cellIndex);
-        void SetRow(int rowIndex);
-        void SetRowCell(int rowIndex, int cellIndex);
+        void SetCellIndex(int cellIndex);
+        void SetRowCellIndex(int rowIndex, int cellIndex);
+        void SetRowIndex(int rowIndex);
         void SetSheet(string name);
-        void SetSheetAt(int index);
+        void SetSheetIndex(int index);
         void SetValue<T>(T value, bool nextCell = false);
     }
 }
