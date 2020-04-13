@@ -13,6 +13,6 @@ namespace ExcelUtilitys
         void SetRowIndex(int rowIndex);
         void SetSheet(string name);
         void SetSheetIndex(int index);
-        void SetValue<T>(T value, bool nextCell = false);
+        void SetValue<T>(T value, bool nextCell = true);
     }
 }

@@ -61,7 +61,7 @@ namespace ExcelUtilitys
             _row = _sheet.GetRow(0);
         }
 
-        public void SetValue<T>(T value, bool nextCell = false)
+        public void SetValue<T>(T value, bool nextCell = true)
         {
             var valueType = typeof(T);
             // 配合C#6.0以下版本
