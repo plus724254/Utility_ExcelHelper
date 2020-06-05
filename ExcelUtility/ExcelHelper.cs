@@ -22,6 +22,7 @@ namespace ExcelUtilitys
             _workbook = new XSSFWorkbook(stream);
             _sheet = _workbook.GetSheetAt(0);
             _row = _sheet.GetRow(0);
+            _cell = _row.GetCell(0);
         }
 
         public void CreateSheet(string sheetName)
@@ -61,7 +62,7 @@ namespace ExcelUtilitys
             _row = _sheet.GetRow(0);
         }
 
-        public void SetValue<T>(T value, bool nextCell = false)
+        public void SetValue<T>(T value, bool nextCell = true)
         {
             var valueType = typeof(T);
             // 配合C#6.0以下版本
@@ -104,6 +105,58 @@ namespace ExcelUtilitys
             {
                 CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex + 1);
             }
+        }
+        public void NextRow(bool firstCell = true)
+        {
+            SetRowIndex(GetRowIndex() +1);
+            if (firstCell)
+            {
+                SetCellIndex(0);
+            }
+        }
+
+        public void NextCell(bool firstRow = true)
+        {
+            SetCellIndex(GetCellIndex() + 1);
+            if (firstRow)
+            {
+                SetRowIndex(0);
+            }
+        }
+        public string GetCellValueString(bool nextCell = true)
+        {
+            CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex);
+            var cellStringValue = _cell.StringCellValue;
+            if (nextCell)
+            {
+                SetCellIndex(_cell.ColumnIndex + 1);
+            }
+
+            return cellStringValue;
+        }
+
+        public double GetCellValueNumber(bool nextCell = true)
+        {
+            CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex);
+            var cellNumericValue = _cell.NumericCellValue;
+            if (nextCell)
+            {
+                SetCellIndex(_cell.ColumnIndex + 1);
+            }
+
+            return cellNumericValue;
+        }
+
+        public DateTime GetCellValueDateTime(bool nextCell = true)
+        {
+            CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex);
+            var cellDateTimeValue = _cell.DateCellValue;
+            if (nextCell)
+            {
+                SetCellIndex(_cell.ColumnIndex + 1);
+            }
+
+            return cellDateTimeValue;
         }
 
         private void CheckOrCreateRowCell(int rowIndex, int cellIndex)

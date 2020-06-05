@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ExcelUtilitys
 {
@@ -13,6 +14,11 @@ namespace ExcelUtilitys
         void SetRowIndex(int rowIndex);
         void SetSheet(string name);
         void SetSheetIndex(int index);
-        void SetValue<T>(T value, bool nextCell = false);
+        void SetValue<T>(T value, bool nextCell = true);
+        void NextRow(bool firstCell = true);
+        void NextCell(bool firstRow = true);
+        string GetCellValueString(bool nextCell = true);
+        double GetCellValueNumber(bool nextCell = true);
+        DateTime GetCellValueDateTime(bool nextCell = true);
     }
 }
