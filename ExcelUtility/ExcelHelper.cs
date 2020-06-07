@@ -13,10 +13,12 @@ namespace ExcelUtilitys
         private ISheet _sheet;
         private IRow _row;
         private ICell _cell;
+
         public ExcelHelper()
         {
             this._workbook = new XSSFWorkbook();
         }
+
         public ExcelHelper(Stream stream)
         {
             _workbook = new XSSFWorkbook(stream);
@@ -27,12 +29,15 @@ namespace ExcelUtilitys
 
         public void CreateSheet(string sheetName)
         {
-            this._sheet = this._workbook.CreateSheet(sheetName);
+            _sheet = _workbook.CreateSheet(sheetName);
+            CheckOrCreateRowCell(0, 0);
         }
+
         public int GetRowIndex()
         {
             return _row.RowNum;
         }
+
         public int GetCellIndex()
         {
             return _cell.ColumnIndex;
@@ -42,10 +47,12 @@ namespace ExcelUtilitys
         {
             CheckOrCreateRowCell(rowIndex, cellIndex);
         }
+
         public void SetRowIndex(int rowIndex)
         {
             CheckOrCreateRowCell(rowIndex, _cell.ColumnIndex);
         }
+
         public void SetCellIndex(int cellIndex)
         {
             CheckOrCreateRowCell(_row.RowNum, cellIndex);
@@ -56,6 +63,7 @@ namespace ExcelUtilitys
             _sheet = _workbook.GetSheet(name);
             _row = _sheet.GetRow(0);
         }
+
         public void SetSheetIndex(int index)
         {
             _sheet = _workbook.GetSheetAt(index);
@@ -106,6 +114,7 @@ namespace ExcelUtilitys
                 CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex + 1);
             }
         }
+
         public void NextRow(bool firstCell = true)
         {
             SetRowIndex(GetRowIndex() +1);
@@ -123,6 +132,7 @@ namespace ExcelUtilitys
                 SetRowIndex(0);
             }
         }
+
         public string GetCellValueString(bool nextCell = true)
         {
             CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex);
