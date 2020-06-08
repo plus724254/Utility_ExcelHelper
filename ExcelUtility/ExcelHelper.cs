@@ -23,6 +23,9 @@ namespace ExcelUtilitys
         {
             _workbook = new XSSFWorkbook(stream);
             _sheet = _workbook.GetSheetAt(0);
+
+            CheckOrCreateRowCell(0, 0);
+
             _row = _sheet.GetRow(0);
             _cell = _row.GetCell(0);
         }
@@ -41,6 +44,10 @@ namespace ExcelUtilitys
         public int GetCellIndex()
         {
             return _cell.ColumnIndex;
+        }
+        public int GetRowCount()
+        {
+            return _sheet.LastRowNum;
         }
 
         public void SetRowCellIndex(int rowIndex, int cellIndex)
@@ -136,7 +143,32 @@ namespace ExcelUtilitys
         public string GetCellValueString(bool nextCell = true)
         {
             CheckOrCreateRowCell(_row.RowNum, _cell.ColumnIndex);
-            var cellStringValue = _cell.StringCellValue;
+
+            string cellStringValue;
+            
+            switch(_cell.CellType)
+            {
+                case CellType.Numeric:  
+                    if (DateUtil.IsCellDateFormatted(_cell))
+                    {   
+                        cellStringValue = _cell.DateCellValue.ToString();
+                    }
+                    else
+                    {   
+                        cellStringValue = _cell.NumericCellValue.ToString();
+                    }
+                    break;
+
+                case CellType.String: 
+                    cellStringValue = _cell.StringCellValue;
+                    break;
+
+                default:
+                    _cell.SetCellType((CellType)1);
+                    cellStringValue = _cell.StringCellValue;
+                    break;
+            }
+            
             if (nextCell)
             {
                 SetCellIndex(_cell.ColumnIndex + 1);

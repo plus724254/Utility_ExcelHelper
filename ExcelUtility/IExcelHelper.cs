@@ -8,6 +8,7 @@ namespace ExcelUtilitys
         void CreateSheet(string sheetName);
         int GetCellIndex();
         int GetRowIndex();
+        int GetRowCount();
         void OnExport(Stream stream);
         void SetCellIndex(int cellIndex);
         void SetRowCellIndex(int rowIndex, int cellIndex);
